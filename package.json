@@ -7,6 +7,9 @@
     "psi-local": "./index.js"
   },
   "preferGlobal": true,
+  "engines": {
+    "node": ">=6.0.0"
+  },
   "dependencies": {
     "ngrok": "^2.2.3",
     "ora": "^0.3.0",
