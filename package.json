@@ -1,0 +1,31 @@
+{
+  "name": "psi-local-cli",
+  "version": "1.0.0",
+  "description": "PageSpeed Insights for localhost via ngrok",
+  "main": "index.js",
+  "bin": {
+    "psi-local": "./index.js"
+  },
+  "preferGlobal": true,
+  "dependencies": {
+    "ngrok": "^2.2.3",
+    "ora": "^0.3.0",
+    "prepend-http": "^1.0.4",
+    "psi": "^2.0.4",
+    "yargs": "^6.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "keywords": [
+    "psi",
+    "google",
+    "speed",
+    "optimize",
+    "localhost",
+    "ngrok"
+  ],
+  "author": "Dmitri Voronianski <dmitri.voronianski@gmail.com>",
+  "license": "MIT"
+}
