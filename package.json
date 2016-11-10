@@ -13,7 +13,6 @@
   "dependencies": {
     "ngrok": "^2.2.3",
     "ora": "^0.3.0",
-    "prepend-http": "^1.0.4",
     "psi": "^2.0.4",
     "yargs": "^6.3.0"
   },
