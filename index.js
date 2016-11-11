@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
 const ngrok = require('ngrok');
-const psi = require('psi');
-const output = require('psi/lib/output');
 const yargs = require('yargs');
 const ora = require('ora');
 const exec = require('child_process').exec;
@@ -11,6 +9,17 @@ const opts = yargs.default({
   strategy: 'desktop',
   nokey: true
 }).argv;
+
+if (opts.help) {
+  return exec('psi --help', (err, stdout) => {
+    stdout = stdout
+      .replace(/psi/gm, 'psi-local')
+      .replace('<url>', '--port <localhost port>')
+      .replace('todomvc.com', '--port 8080');
+
+    process.stdout.write(stdout);
+  });
+}
 
 if (!opts.port) {
   return error({
@@ -24,7 +33,7 @@ const spinner = ora({color: 'yellow'});
 spinner.start();
 spinner.text = '---> Creating ngrok tunnel';
 
-ngrok.connect(opts.port, function (err, url) {
+ngrok.connect(opts.port, (err, url) => {
   if (err) {
     return error(err)
   }
@@ -39,7 +48,7 @@ ngrok.connect(opts.port, function (err, url) {
     return;
   }
 
-  exec(`psi ${url} ${createPsiParams(opts)}`, function (err, stdout) {
+  exec(`psi ${url} ${_createPsiParams(opts)}`, (err, stdout) => {
     spinner.text = '---> PageSpeed Insights are done!';
     spinner.stop();
 
@@ -48,18 +57,22 @@ ngrok.connect(opts.port, function (err, url) {
   });
 });
 
-function createPsiParams (obj) {
-  const params = Object.assign({}, obj, {port: 0, route: 0, nopsi: 0});
+function _createPsiParams (obj) {
+  const params = Object.assign({}, obj, {
+    port: 0,
+    route: 0,
+    nopsi: 0
+  });
 
-  return Object.keys(params).filter(function (key) {
-    return params[key];
-  }).reduce(function (memo, key) {
-    memo += ` --${key} ${params[key]}`;
-    return memo;
-  }, '');
+  return Object.keys(params)
+    .filter(key => params[key])
+    .reduce((memo, key)  => {
+      memo += ` --${key} ${params[key]}`;
+      return memo;
+    }, '');
 }
 
-function error (err) {
+function _error (err) {
   if (err.noStack) {
     console.error(err.message);
     process.exit(1);
